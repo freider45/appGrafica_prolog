@@ -1,12 +1,14 @@
 %&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 %  ESTRUCTURAS DEL LENGUAJE
-%  Elaborado por: MSc. Jimena Adriana Timaná Peña 			  %
+%  Elaborado por: Brayan Majin Gaviria
+%                 Freider Johan Escobar Cueltan
 %&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Aqui definición de hechos y reglas, funciones básicas y recursivas
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %Funcion para busqueda de un elemento dentro de una lista
 %función básica:
 buscar(X,[X|Cola]).
@@ -44,14 +46,14 @@ prestar_libro(X):- presta(X, jimena).
 %crea el menú
 
 crea_ventana(init):- 
-menu(pop_up, _,_,salir(_),"&ARCHIVO"), 
+menu(pop_up, _,_,archivo(_),"&ARCHIVO"), 
 menu(pop_up, _,_,listas(_),"&LISTAS"),
-menu(pop_up, _,_,logico(_),"&LOGICO").
+menu(pop_up, _,_,logico(_),"&LÓGICO").
 
 %Crea el Submenú Salir
-salir(init):-	
+archivo(init):-	
+menu(normal, _,_,informacion(),"&Información"),
 menu(normal, _,_,cerrar_ven(_),"&Salir").
-cerrar_ven(press):- close_window(X).
 
 %Crea el Submenú listas
 listas(init):-	
@@ -64,16 +66,26 @@ menu(normal, _,_,prestar_libro(_),"&Prestar Libro"),
 menu(normal, _,_,criminal(_),"&Criminal").
 
 
-% subfuncion para buscar elemento en la lista
+% --------------- Sub funciones ---------------------------
+% Para Archivo
+% subfuncion para salir
+cerrar_ven(press):- close_window(X).
 
+% subfuncion para mostrar la informacion
+informacion(press):- 
+window(_, _, ventana_informacion(_), "Autores", 175,160,400,200),
+		   text_out(50, 30, "Autores: " ),
+		   text_out(50, 50, "Brayan Majin Gaviria"),
+		   text_out(50, 70, "Freider Johan Escobar Cueltan").
+
+
+% Para Listas
+% subfuncion para buscar elemento en la lista
 buscar_elem(press):-  
 window( _, _, ventana_buscar(_), "Buscar elemento en Lista", 150,50,450,450).
 
-
-
 ventana_buscar(init):- window_brush(_, rgb(166, 129, 182)),
                     button(_,_,boton_iniciar(_),"&Iniciar",320,35,95,30).
-
 
 %---- al oprimir el botón se procede a buscar el elemento
 
