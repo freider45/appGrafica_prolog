@@ -37,11 +37,14 @@ presta(ana, jimena).
 %Regla prestar libro
 prestar_libro(X):- presta(X, jimena).
 
+% Hechos Hollywood
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 ?-window(_, _,crea_ventana(),"Aplicación",150, 50, 450, 450), 
-  window_brush(_, "kame.bmp"),update_window(_).
+  window_brush(_, "SKY.bmp"),update_window(_).
 
 %crea el menú
 
@@ -57,13 +60,13 @@ menu(normal, _,_,cerrar_ven(_),"&Salir").
 
 %Crea el Submenú listas
 listas(init):-	
-menu(normal, _,_,buscar_elem(_),"&Buscar Elemento"),
-menu(normal, _,_,promedio_lista(_),"&Promedio Lista").
+menu(normal, _,_,buscar_elem(_),"&Borrar Elemento"),
+menu(normal, _,_,promedio_lista(_),"&Concatenar Inversa"),
+menu(normal, _,_,conocer_multiplos(),"&Conocer_multiplos").
 
 %Crea el Submenú Logico
 logico(init):-	
-menu(normal, _,_,prestar_libro(_),"&Prestar Libro"),
-menu(normal, _,_,criminal(_),"&Criminal").
+menu(normal, _,_,criminal(_),"&Hollywood").
 
 
 % --------------- Sub funciones ---------------------------
@@ -111,29 +114,6 @@ window(_, _, ventana_promedio(_), "Promedio de lista",150,50,450,450).
 
 ventana_promedio(init):-window_brush(_, rgb(166, 129, 182)),
 					button(_, _,boton_promedio(_),"&Iniciar",320,35,95,30).
-
-%------- Al oprimir el boton se procede a calcular el promedio
-
-boton_promedio(press):-
-
-	read(Lista,"Digite la lista a sacar el promedio:"),
-	%esta es una etiqueta
-     text_out(50,100,"La Lista es:"),	
-	%esta es una caja de texto con el nombre de G_lista
-     edit(G_lista,_,edit_func(_),"",235,120,150,28),
-	set_text(print(Lista),G_lista), 
-	promedio(Lista,Promedio),
-	text_out(50,300,"El promedio es:"),
-	edit(G_lista,_,edit_func(_),"",235,300,150,28),
-	set_text(print(Promedio),G_lista). 
-
-% subfuncion para prestar libro
-
-prestar_libro(press):-
-window(_, _, ventana_prestar(_), "Promedio de lista",150,50,450,450).
-
-ventana_prestar(init):-window_brush(_, rgb(166, 129, 182)),
-					button(_, _,boton_prestar(_),"&Iniciar",320,35,95,30).
 
 %------- Al oprimir el boton se procede a calcular el promedio
 
