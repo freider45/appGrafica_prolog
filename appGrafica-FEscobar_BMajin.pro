@@ -37,6 +37,12 @@ presta(ana, jimena).
 %Regla prestar libro
 prestar_libro(X):- presta(X, jimena).
 
+%--------------------------------------------------------------------------------
+%funcion concatenar dos listas de manera inversa
+
+concatenar(Lista,[],Lista).
+concatenar(Lista,[Cabeza|Cola],[Cabeza|Resultado]):-concatenar(Lista,Cola,Resultado).
+
 % Hechos Hollywood
 
 
@@ -61,7 +67,7 @@ menu(normal, _,_,cerrar_ven(_),"&Salir").
 %Crea el Submenú listas
 listas(init):-	
 menu(normal, _,_,buscar_elem(_),"&Borrar Elemento"),
-menu(normal, _,_,promedio_lista(_),"&Concatenar Inversa"),
+menu(normal, _,_,concatenar_inversa(_),"&Concatenar Inversa"),
 menu(normal, _,_,conocer_multiplos(),"&Conocer_multiplos").
 
 %Crea el Submenú Logico
@@ -125,5 +131,31 @@ boton_prestar(press):-
 	prestar_libro(X),
 	set_text(print(X),G_lista).
 
+%-------------------------------------------------------------
+%seccion concatenar elementos inversamente en una lista.
 
 
+
+% Para Listas
+% subfuncion para buscar elemento en la lista
+concatenar_inversa(press):-  
+window( _, _, ventana_concatenar(_), "Concatenar listas inversamente", 150,50,450,450).
+
+ventana_concatenar(init):- window_brush(_, rgb(166, 129, 182)),
+                    button(_,_,boton_concatenar(_),"&Concatenar",320,35,95,30).
+
+
+
+boton_concatenar(press):- 
+	
+	read(Lista1,"Digite la primera lista: "),
+	read(Lista2,"Digite La Segunda lista"),
+	%esta es una etiqueta
+     text_out(50,100,"La Lista es:"),	
+     %esta es una caja de texto con el nombre de 
+	
+     edit(Conctenar_inversa,_,edit_func(_),"",235,120,150,28),
+	   concatenar(Lista1,Lista2,Resultado),
+	set_text(print(Resultado), Conctenar_inversa).
+
+	
