@@ -204,7 +204,8 @@ boton_iniciar(press):-
 	%Esta es una etiqueta para la lista
 	text_out(50,100,"Pregunta 1 "),
 	text_out(50,150,"Pregunta 2 "),
-	text_out(50,200,"Pregunta 3 ").
+	text_out(50,200,"Pregunta 3 ")
+	text_out(50,250,"Pregunta 4").
 
 	
 
