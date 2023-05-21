@@ -34,6 +34,29 @@ multiplos([Cabeza|Cola], [Cabeza|Multiplos], M, N) :-Cabeza mod 5 =:= 0,Cabeza m
 multiplos([Cabeza|Cola], Multiplos, M, N) :- multiplos(Cola, Multiplos, M, N1),N is N1 + 1.
 
 % Hechos Hollywood
+es_director(j.j abrams,star trek).
+es_director(guillermo del toro,hellboy).
+es_director(gabriele muccino,siete almas).
+es_director(michael bay,transformers).
+es_director(jon favreau,iron man).
+
+es_actor(daniel radcliffe,harry potter).
+es_actor(tom hanks,ángeles y demonios).
+es_actor(megan fox,transformers).
+es_actor(brad pitt,benjamin button).
+es_actor(downey jr,iron man).
+es_actor(will smith,siete almas).
+
+genero(harry potter,aventura).
+genero(star trek,ciencia ficcion).
+genero(angeles y demonios,suspenso).
+genero(transformers,accion).
+genero(benjamin button,drama).
+genero(siete almas,drama).
+genero(iron man,ciencia ficcion).
+genero(hellboy,ciencia ficcion).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
