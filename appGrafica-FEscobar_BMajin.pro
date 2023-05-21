@@ -23,9 +23,17 @@ borrar(E,[Cabeza|Cola],[Cabeza|Lista]):-borrar(E,Cola,Lista),E \= Cabeza.
 concatenar(Lista,[],Lista).
 % Recursiva
 concatenar(Lista,[Cabeza|Cola],[Cabeza|Resultado]):-concatenar(Lista,Cola,Resultado).
+%-----------------------------------------------------------------------------------
+%funcion multiplos de 5 pero no de tres
+%basica
+conocer([],[], 0, 0).
+%funcion recursiva
+conocer([Cabeza|Cola], [Cabeza|Multiplos], M, N) :-Cabeza mod 5 =:= 0,Cabeza mod 3 =\= 0,conocer(Cola,Multiplos,M1,N),
+  M is M1 + 1.
+  N is N.
+conocer([Cabeza|Cola], Multiplos, M, N) :- conocer(Cola, Multiplos, M, N1),N is N1 + 1.
 
 % Hechos Hollywood
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
