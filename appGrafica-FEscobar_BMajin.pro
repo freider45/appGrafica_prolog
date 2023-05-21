@@ -159,9 +159,18 @@ text_out(50,150,"pelicula: ").
 ventana_actor_genero(init):-window_brush(_,rgb(64,207,255)),
 					button(_,_,boton_actor_genero(_),"&Consultar",160,40,95,30).
 
+%consulta 2
+boton_consultar2(press):-
+window( _, _,ventana_pelicula_genero_actor(_), "Informacion delActor y Genero", 150, 50,450,450),
+text_out(50,100,"director: ").
 
-
-
+ventana_pelicula_genero_actor(init):-window_brush(_,rgb(64,207,255)),
+					button(_,_,boton_pelicula_genero_actor(_),"&Consultar",160,40,95,30).
+%consulta 3
+boton_consultar3(press):-
+window( _, _, ventana_director_pelicula_actor_genero(_), "Informacion delActor y Genero", 150, 50,450,450).
+ventana_director_pelicula_actor_genero(init):-window_brush(_,rgb(64,207,255)),
+					button(_,_,boton_director_pelicula_actor_genero(_),"&Consultar",160,40,95,30).
 %---------------------------------Botones--------------------------------------------
 % al oprimir el botón borrar se procede a borrar el elemento
 boton_borrar(press):- 
@@ -228,7 +237,7 @@ boton_multiplos(press):-
 % al oprimir el botón_actor_genero se procede a mostrar el actor y el genero.
 
 boton_actor_genero(press):-
-
+ 
 	read(Director,"Escriba el nombre del director: "),
 	read(Pelicula,"Escriba el nombre de la pelicula: "),
 	edit(Caja,_,edit_func(_),"",235,100,150,25),
@@ -243,13 +252,25 @@ boton_actor_genero(press):-
 	edit(Caja,_,edit_func(_),"",235,300,150,25),
 	set_text(print(Genero),Caja).
 
+% al oprimir el botón_pelicula_genero_actor se procede a mostrar la pelicula, genero, actor.
+boton_pelicula_genero_actor(press):-
+	read(Director,"Escriba el nombre del director: "),
+	edit(Caja,_,edit_func(_),"",235,100,150,25),
+	set_text(print(Director),Caja),
+	determinar_pelicula_genero_actor(Director,Pelicula,Genero,Actor),
+	text_out(50,150,"La pelicula es: "),
+	text_out(50,200,"El genero es: "),	
+	text_out(50,250,"El actor es: "),
+	edit(Caja,_,edit_func(_),"",235,150,150,25),
+	set_text(print(Pelicula),Caja),
+     edit(Caja,_,edit_func(_),"",235,200,150,25),
+	set_text(print(Genero),Caja),
+	edit(Caja,_,edit_func(_),"",235,250,150,25),
+	set_text(print(Actor),Caja).
+% al oprimir el botón_director_pelicula_actor_genero procede a mostrar la informacion del director, la pelicula,el genero y el actor.
+boton_director_pelicula_actor_genero(press):-
 
-
-
-			
-
-
-
+text_out(50,150,"La pelicula es: ").
 	
 
 	
