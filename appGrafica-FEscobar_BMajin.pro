@@ -56,6 +56,12 @@ genero(siete_almas,drama).
 genero(iron_man,ciencia_ficcion).
 genero(hellboy,ciencia_ficcion).
 
+%Reglas
+%regla para la primera pregunta
+determinar_actor_genero(Director,Pelicula,Actor,Genero):-es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
+determinar_pelicula_genero_actor(Director,Pelicula,Genero,Actor):- es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,13 +135,34 @@ ventana_multiplos(init):-window_brush(_,rgb(64,207,255)),
 %Para Lógico
 % subfunción para 
 hollywood(press):-
-window( _, _, ventana_hollywood(), "Hollywood", 150,50,450,450).
-
+window( _, _, ventana_hollywood(_), "Hollywood", 150,50,450,450),
+text_out(50,100,"Determinar el actor y el genero       "),
+text_out(50,116,"conociendo el director y la pelicula: "),
+text_out(50,200,"Determinar la pelicula el genero  "),
+text_out(50,216,"y el actor, conociendo el director: "),
+text_out(50,300,"Mostrar la informacion del director,  "),
+text_out(50,316,"pelicula que dirigio, genero y actor:  ").
 ventana_hollywood(init):-window_brush(_,rgb(64,207,255)),
-				button(_,_,boton_iniciar(_),"&Iniciar",160,35,95,30).
+				button(_,_,boton_consultar1(_),"&Ir",320,100,95,30),
+				button(_,_,boton_consultar2(_),"&Ir",320,200,95,30),
+				button(_,_,boton_consultar3(_),"&Ir",320,300,95,30).
+
+%------------------------------------------------------------------------------------
+%-------------------------redireccion de ventanas cosultas---------------------------
+%Esta seccion es de la parte logica
+%consulta 1
+boton_consultar1(press):-
+window( _, _, ventana_actor_genero(_), "Informacion delActor y Genero", 150, 50,450,450),
+text_out(50,100,"director: "),
+text_out(50,150,"pelicula: ").
+
+ventana_actor_genero(init):-window_brush(_,rgb(64,207,255)),
+					button(_,_,boton_actor_genero(_),"&Consultar",160,40,95,30).
+
+
+
 
 %---------------------------------Botones--------------------------------------------
-
 % al oprimir el botón borrar se procede a borrar el elemento
 boton_borrar(press):- 
 	
@@ -198,14 +225,30 @@ boton_multiplos(press):-
 	set_text(print(Cant_no_mult), G_lista).
 
 
-% al oprimir el botón iniciar se procede a mostrar las preguntas y sus respuestas
-boton_iniciar(press):-
+% al oprimir el botón_actor_genero se procede a mostrar el actor y el genero.
 
-	%Esta es una etiqueta para la lista
-	text_out(50,100,"Pregunta 1 "),
-	text_out(50,150,"Pregunta 2 "),
-	text_out(50,200,"Pregunta 3 "),
-	text_out(50,250,"Pregunta 4").
+boton_actor_genero(press):-
+
+	read(Director,"Escriba el nombre del director: "),
+	read(Pelicula,"Escriba el nombre de la pelicula: "),
+	edit(Caja,_,edit_func(_),"",235,100,150,25),
+	set_text(print(Director),Caja),
+	edit(Caja,_,edit_func(_),"",235,150,150,25),
+	set_text(print(Pelicula),Caja),
+	determinar_actor_genero(Director,Pelicula,Actor,Genero),
+	text_out(50,250,"El actor es: "),
+	text_out(50,300,"El genero es: "),
+	edit(Caja,_,edit_func(_),"",235,250,150,25),
+	set_text(print(Actor),Caja),
+	edit(Caja,_,edit_func(_),"",235,300,150,25),
+	set_text(print(Genero),Caja).
+
+
+
+
+			
+
+
 
 	
 
