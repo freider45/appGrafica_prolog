@@ -34,27 +34,27 @@ multiplos([Cabeza|Cola], [Cabeza|Multiplos], M, N) :-Cabeza mod 5 =:= 0,Cabeza m
 multiplos([Cabeza|Cola], Multiplos, M, N) :- multiplos(Cola, Multiplos, M, N1),N is N1 + 1.
 
 % Hechos Hollywood
-es_director(j.j abrams,star trek).
-es_director(guillermo del toro,hellboy).
-es_director(gabriele muccino,siete almas).
-es_director(michael bay,transformers).
-es_director(jon favreau,iron man).
+es_director(j.j_abrams,star_trek).
+es_director(guillermo_del_toro,hellboy).
+es_director(gabriele_muccino,siete_almas).
+es_director(michael_bay,transformers).
+es_director(jon_favreau,iron_man).
 
-es_actor(daniel radcliffe,harry potter).
-es_actor(tom hanks,ángeles y demonios).
-es_actor(megan fox,transformers).
-es_actor(brad pitt,benjamin button).
-es_actor(downey jr,iron man).
-es_actor(will smith,siete almas).
+es_actor(daniel_radcliffe,harry_potter).
+es_actor(tom_hanks,ángeles_y_demonios).
+es_actor(megan_fox,transformers).
+es_actor(brad_pitt,benjamin_button).
+es_actor(downey_jr,iron_man).
+es_actor(will_smith,siete_almas).
 
-genero(harry potter,aventura).
-genero(star trek,ciencia ficcion).
-genero(angeles y demonios,suspenso).
+genero(harry_potter,aventura).
+genero(star_trek,ciencia_ficcion).
+genero(angeles_y_demonios,suspenso).
 genero(transformers,accion).
-genero(benjamin button,drama).
-genero(siete almas,drama).
-genero(iron man,ciencia ficcion).
-genero(hellboy,ciencia ficcion).
+genero(benjamin_button,drama).
+genero(siete_almas,drama).
+genero(iron_man,ciencia_ficcion).
+genero(hellboy,ciencia_ficcion).
 
 
 
@@ -204,7 +204,7 @@ boton_iniciar(press):-
 	%Esta es una etiqueta para la lista
 	text_out(50,100,"Pregunta 1 "),
 	text_out(50,150,"Pregunta 2 "),
-	text_out(50,200,"Pregunta 3 ")
+	text_out(50,200,"Pregunta 3 "),
 	text_out(50,250,"Pregunta 4").
 
 	
