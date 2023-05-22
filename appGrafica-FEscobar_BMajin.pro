@@ -61,6 +61,8 @@ genero(hellboy,ciencia_ficcion).
 determinar_actor_genero(Director,Pelicula,Actor,Genero):-es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
 determinar_pelicula_genero_actor(Director,Pelicula,Genero,Actor):- es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
 
+determinar_director_pelicula_genero_actor(Director,Pelicula,Genero,Actor):- es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
+
 
 
 
@@ -267,13 +269,46 @@ boton_pelicula_genero_actor(press):-
 	set_text(print(Genero),Caja),
 	edit(Caja,_,edit_func(_),"",235,250,150,25),
 	set_text(print(Actor),Caja).
+
+
+
 % al oprimir el botón_director_pelicula_actor_genero procede a mostrar la informacion del director, la pelicula,el genero y el actor.
 boton_director_pelicula_actor_genero(press):-
+ 	 read(Director, "Escriba el nombre del director: "),
+    edit(Caja, _, edit_func(_), "", 235, 100, 150, 25),
+    set_text(print(Director), Caja),
+    determinar_pelicula_genero_actor(Director, Datos),
+    mostrar_datos(Datos).
 
-text_out(50,150,"La pelicula es: ").
 	
 
 	
+mostrar_datos(Datos) :-
+    text_out(50, 150, "La pelicula es: "),
+    text_out(50, 200, "El genero es: "),
+    text_out(50, 250, "El actor es: "),
+    mostrar_valores(Datos, 235, 150),
+    mostrar_valores(Datos, 235, 200),
+    mostrar_valores(Datos, 235, 250).
+
+mostrar_valores([], _, _).
+mostrar_valores([Pelicula-Genero-Actor|Resto], X, Y) :-
+    edit(Caja, _, edit_func(_), "", X, Y, 150, 25),
+    set_text(print_lista(Pelicula), Caja),
+ 	edit(Caja1, _, edit_func(_), "", X, Y, 150, 25),
+    set_text(print_lista(Genero), Caja1),
+    edit(Caja2, _, edit_func(_), "", X, Y, 150, 25),
+    set_text(print_lista(Actor),Caja2),
+    Y1 is Y + 25,
+    mostrar_valores(Resto, X, Y1).
+
+print_lista([]).
+print_lista([Pelicula-Genero-Actor|Resto]) :-
+    write(Pelicula),
+	write(Genero),
+	write(Actor),
+    write(" "),
+    print_lista(Resto).
 
 
 
