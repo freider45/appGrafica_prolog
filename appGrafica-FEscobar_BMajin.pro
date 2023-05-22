@@ -56,12 +56,23 @@ genero(siete_almas,drama).
 genero(iron_man,ciencia_ficcion).
 genero(hellboy,ciencia_ficcion).
 
-%Reglas
-%regla para la primera pregunta
-determinar_actor_genero(Director,Pelicula,Actor,Genero):-es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
-determinar_pelicula_genero_actor(Director,Pelicula,Genero,Actor):- es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
+%regla para la informacion de la pelicula
+informacion_pelicula(Director,Pelicula,Actor,Genero):-
+	es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
 
+%Mostrar respuesta a preguntas
 
+%Básica
+mostrar_actor_genero([], _).
+
+%Recursiva
+mostrar_actor_genero([Actor-Genero | Cola],Y) :-
+	edit(Caja, _, edit_func(_),"",50,Y,150,25),
+	set_text(print(Genero),Caja),
+	edit(Caja, _, edit_func(_),"",235,Y,130,25),
+	set_text(print(Actor),Caja),
+     Y1 is Y + 30,
+     mostrar_actor_genero(Cola, Y1).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -240,17 +251,15 @@ boton_actor_genero(press):-
  
 	read(Director,"Escriba el nombre del director: "),
 	read(Pelicula,"Escriba el nombre de la pelicula: "),
+	findall(Actor-Genero, informacion_pelicula(Director, Pelicula, Genero, Actor),Actor_genero),
 	edit(Caja,_,edit_func(_),"",235,100,150,25),
 	set_text(print(Director),Caja),
 	edit(Caja,_,edit_func(_),"",235,150,150,25),
 	set_text(print(Pelicula),Caja),
-	determinar_actor_genero(Director,Pelicula,Actor,Genero),
-	text_out(50,250,"El actor es: "),
-	text_out(50,300,"El genero es: "),
-	edit(Caja,_,edit_func(_),"",235,250,150,25),
-	set_text(print(Actor),Caja),
-	edit(Caja,_,edit_func(_),"",235,300,150,25),
-	set_text(print(Genero),Caja).
+	text_out(50,220,"Actor:  "),
+	text_out(235,220,"Genero:  "),
+	mostrar_actor_genero(Actor_genero, 250).
+
 
 % al oprimir el botón_pelicula_genero_actor se procede a mostrar la pelicula, genero, actor.
 boton_pelicula_genero_actor(press):-
@@ -269,7 +278,7 @@ boton_pelicula_genero_actor(press):-
 	set_text(print(Actor),Caja).
 % al oprimir el botón_director_pelicula_actor_genero procede a mostrar la informacion del director, la pelicula,el genero y el actor.
 boton_director_pelicula_actor_genero(press):-
-
+findall(Genero-Actor, info_pelicula(Director, Pelicula, Genero, Actor),GenerosActores),
 text_out(50,150,"La pelicula es: ").
 	
 
