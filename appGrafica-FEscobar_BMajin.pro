@@ -17,6 +17,12 @@ borrar(X,[X|Cola],Cola).
 % Recursiva
 borrar(E,[Cabeza|Cola],[Cabeza|Lista]):-borrar(E,Cola,Lista),E \= Cabeza.
 
+%función básica buscar:
+buscar(X,[X|Cola]).
+
+%función recursiva buscar:
+buscar(X,[Cabeza|Cola]):- buscar(X,Cola).
+
 %--------------------------------------------------------------------------------
 %funcion concatenar dos listas de manera inversa
 % Básica
@@ -24,17 +30,16 @@ concatenar(Lista,[],Lista).
 % Recursiva
 concatenar(Lista,[Cabeza|Cola],[Cabeza|Resultado]):-concatenar(Lista,Cola,Resultado).
 %-----------------------------------------------------------------------------------
-%funcion multiplos de 5 pero no de tres
+%funcion multiplos de 5 pero no de 3
 %basica
-multiplos([],[], 0, 0).
+multiplos([],[], 0).
 %funcion recursiva
-multiplos([Cabeza|Cola], [Cabeza|Multiplos], M, N) :-Cabeza mod 5 =:= 0,Cabeza mod 3 =\= 0,multiplos(Cola,Multiplos,M1,N),
+multiplos([Cabeza|Cola], [Cabeza|Multiplos], M) :-Cabeza mod 5 =:= 0,Cabeza mod 3 =\= 0,multiplos(Cola,Multiplos,M1),
   M is M1 + 1.
-  N is N.
-multiplos([Cabeza|Cola], Multiplos, M, N) :- multiplos(Cola, Multiplos, M, N1),N is N1 + 1.
+multiplos([Cabeza|Cola],Multiplos,M):-multiplos(Cola,Multiplos,M).
 
 % Hechos Hollywood
-es_director(j.j_abrams,star_trek).
+es_director(j_j_abrams,star_trek).
 es_director(guillermo_del_toro,hellboy).
 es_director(gabriele_muccino,siete_almas).
 es_director(michael_bay,transformers).
@@ -57,13 +62,15 @@ genero(iron_man,ciencia_ficcion).
 genero(hellboy,ciencia_ficcion).
 
 %regla para la informacion de la pelicula
-informacion_pelicula(Director,Pelicula,Actor,Genero):-
+informacion_pelicula(Director,Pelicula,Genero,Actor):-
 	es_director(Director,Pelicula),es_actor(Actor,Pelicula),genero(Pelicula,Genero).
 
 %Mostrar respuesta a preguntas
 
+
 %Básica
 mostrar_actor_genero([], _).
+
 
 %Recursiva
 mostrar_actor_genero([Actor-Genero | Cola],Y) :-
@@ -73,7 +80,33 @@ mostrar_actor_genero([Actor-Genero | Cola],Y) :-
 	set_text(print(Actor),Caja),
      Y1 is Y + 30,
      mostrar_actor_genero(Cola, Y1).
+%Basica
+mostrar_pelicula_genero_actor([], _).
+%Recursiva
+mostrar_pelicula_genero_actor([Pelicula-Genero-Actor|Cola],Y):-
+	edit(Caja, _, edit_func(_),"",30,Y,120,25),
+	set_text(print(Pelicula),Caja),
+	edit(Caja, _, edit_func(_),"",180,Y,110,25),
+	set_text(print(Genero),Caja),
+	edit(Caja, _, edit_func(_),"",300,Y,120,25),
+	set_text(print(Actor),Caja),
+	Y1 is Y + 30,
+     mostrar_pelicula_genero_actor(Cola, Y1).
 
+%Basica
+mostrar_director_pelicula_genero_actor([], _).
+%Recusiva
+mostrar_director_pelicula_genero_actor([Director-Pelicula-Genero-Actor|Cola],Y):-
+	edit(Caja, _, edit_func(_),"",10,Y,130,25),
+	set_text(print(Director),Caja),
+	edit(Caja, _, edit_func(_),"",160,Y,120,25),
+	set_text(print(Pelicula),Caja),
+	edit(Caja, _, edit_func(_),"",310,Y,110,25),
+	set_text(print(Actor),Caja),
+	edit(Caja, _, edit_func(_),"",450,Y,120,25),
+	set_text(print(Genero),Caja),
+	Y1 is Y + 30,
+     mostrar_director_pelicula_genero_actor(Cola, Y1).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -82,7 +115,7 @@ mostrar_actor_genero([Actor-Genero | Cola],Y) :-
   window_brush(_, "SKY.bmp"),update_window(_).
 
 %----------------------Submenú-----------------------------
-%crea el
+%crea el Submenu 
 crea_ventana(init):- 
 menu(pop_up, _,_,archivo(_),"&ARCHIVO"), 
 menu(pop_up, _,_,listas(_),"&LISTAS"),
@@ -97,7 +130,7 @@ menu(normal, _,_,cerrar_ven(_),"&Salir").
 listas(init):-	
 menu(normal, _,_,borrar_elemento(_),"&Borrar Elemento"),
 menu(normal, _,_,concatenar_inversa(_),"&Concatenar Inversa"),
-menu(normal, _,_,conocer_multiplos(_),"&Conocer multiplos").
+menu(normal, _,_,conocer_multiplos(_),"&Multiplos de 5").
 
 %Crea el Submenú Logico
 logico(init):-	
@@ -137,7 +170,7 @@ ventana_concatenar(init):- window_brush(_, rgb(64,207,255)),
 
 % subfunción para conocer multiplos de 5 pero no de 3
 conocer_multiplos(press):-
-window( _, _, ventana_multiplos(), "Multiplos de 5", 150, 50,450,450).
+window( _, _, ventana_multiplos(), "Multiplos de 5 pero no de 3", 150, 50,450,450).
 
 ventana_multiplos(init):-window_brush(_,rgb(64,207,255)),
 				button(_,_,boton_multiplos(_),"&Multiplos",160,35,95,30).
@@ -163,7 +196,7 @@ ventana_hollywood(init):-window_brush(_,rgb(64,207,255)),
 %Esta seccion es de la parte logica
 %consulta 1
 boton_consultar1(press):-
-window( _, _, ventana_actor_genero(_), "Informacion delActor y Genero", 150, 50,450,450),
+window( _, _, ventana_actor_genero(_), "Informacion Pelicula", 150, 50,450,450),
 text_out(50,100,"director: "),
 text_out(50,150,"pelicula: ").
 
@@ -172,16 +205,16 @@ ventana_actor_genero(init):-window_brush(_,rgb(64,207,255)),
 
 %consulta 2
 boton_consultar2(press):-
-window( _, _,ventana_pelicula_genero_actor(_), "Informacion delActor y Genero", 150, 50,450,450),
+window( _, _,ventana_pelicula_genero_actor(_), "Informacion Pelicula", 150, 50,450,450),
 text_out(50,100,"director: ").
 
 ventana_pelicula_genero_actor(init):-window_brush(_,rgb(64,207,255)),
 					button(_,_,boton_pelicula_genero_actor(_),"&Consultar",160,40,95,30).
 %consulta 3
 boton_consultar3(press):-
-window( _, _, ventana_director_pelicula_actor_genero(_), "Informacion delActor y Genero", 150, 50,450,450).
+window( _, _, ventana_director_pelicula_actor_genero(_), "Informacion Pelicula", 150, 50,600,500).
 ventana_director_pelicula_actor_genero(init):-window_brush(_,rgb(64,207,255)),
-					button(_,_,boton_director_pelicula_actor_genero(_),"&Consultar",160,40,95,30).
+					button(_,_,boton_director_pelicula_actor_genero(_),"&Consultar",250,40,95,30).
 %---------------------------------Botones--------------------------------------------
 % al oprimir el botón borrar se procede a borrar el elemento
 boton_borrar(press):- 
@@ -196,12 +229,16 @@ boton_borrar(press):-
 	set_text(print(Lista),G_lista), 
 	edit(G_lista,_,edit_func(_),"",235,150,50,24),
 	set_text(print(Elem),G_lista),
+    (buscar(Elem,Lista)-> 
+		text_out(2,2,"")
+ 	else 
+		message( "Información", "El elemento no se encuentra en la lista ",i)),
+
 	%Función
 	borrar(Elem,Lista,New_lista),
 	text_out(50,250,"La Lista queda:"),
 	edit(G_lista,_,edit_func(_),"",235,250,150,25),
 	set_text(print(New_lista),G_lista).
-
 
 % al oprimir el botón concatenar se procede a concatenar las dos listas
 boton_concatenar(press):- 
@@ -233,17 +270,14 @@ boton_multiplos(press):-
 	edit(G_lista,_,edit_func(_),"",235,100,150,25),
 	set_text(print(Lista),G_lista),
 	%Función
-	multiplos(Lista,Lista_mult,Cant_mult,Cant_no_mult),
+	multiplos(Lista,Lista_mult,Cant_mult),
 	text_out(50,200,"Lista multiplos de 5:"),
-	text_out(50,250,"La cantidad de multiplos de 5 es:"),
-	text_out(50,300,"La cantidad de no multiplos de 5 es:"),
+	text_out(50,250,"La cantidad de multiplos de 5"),
+	text_out(50,266,"pero no multiplos de 3:          "),
 	edit(G_lista,_,edit_func(_),"",235,200,150,25),
 	set_text(print(Lista_mult), G_lista),
 	edit(G_lista,_,edit_func(_),"",320,250,50,24),
-	set_text(print(Cant_mult), G_lista),
-	edit(G_lista,_,edit_func(_),"",320,300,50,24),
-	set_text(print(Cant_no_mult), G_lista).
-
+	set_text(print(Cant_mult), G_lista).
 
 % al oprimir el botón_actor_genero se procede a mostrar el actor y el genero.
 
@@ -251,38 +285,41 @@ boton_actor_genero(press):-
  
 	read(Director,"Escriba el nombre del director: "),
 	read(Pelicula,"Escriba el nombre de la pelicula: "),
-	findall(Actor-Genero, informacion_pelicula(Director, Pelicula, Genero, Actor),Actor_genero),
+	findall(Actor-Genero, informacion_pelicula(Director, Pelicula, Genero, Actor),Lista),
 	edit(Caja,_,edit_func(_),"",235,100,150,25),
 	set_text(print(Director),Caja),
 	edit(Caja,_,edit_func(_),"",235,150,150,25),
 	set_text(print(Pelicula),Caja),
-	text_out(50,220,"Actor:  "),
-	text_out(235,220,"Genero:  "),
-	mostrar_actor_genero(Actor_genero, 250).
+	text_out(50,220,"Genero:  "),
+	text_out(235,220,"Actor:  "),
+	mostrar_actor_genero(Lista, 250).
 
 
-% al oprimir el botón_pelicula_genero_actor se procede a mostrar la pelicula, genero, actor.
+% al oprimir el botón_pelicula_genero_actor se procede a mostrar la pelicula,el genero y el actor.
 boton_pelicula_genero_actor(press):-
 	read(Director,"Escriba el nombre del director: "),
 	edit(Caja,_,edit_func(_),"",235,100,150,25),
 	set_text(print(Director),Caja),
-	determinar_pelicula_genero_actor(Director,Pelicula,Genero,Actor),
-	text_out(50,150,"La pelicula es: "),
-	text_out(50,200,"El genero es: "),	
-	text_out(50,250,"El actor es: "),
-	edit(Caja,_,edit_func(_),"",235,150,150,25),
-	set_text(print(Pelicula),Caja),
-     edit(Caja,_,edit_func(_),"",235,200,150,25),
-	set_text(print(Genero),Caja),
-	edit(Caja,_,edit_func(_),"",235,250,150,25),
-	set_text(print(Actor),Caja).
-% al oprimir el botón_director_pelicula_actor_genero procede a mostrar la informacion del director, la pelicula,el genero y el actor.
-boton_director_pelicula_actor_genero(press):-
-findall(Genero-Actor, info_pelicula(Director, Pelicula, Genero, Actor),GenerosActores),
-text_out(50,150,"La pelicula es: ").
+	findall(Pelicula-Genero-Actor, informacion_pelicula(Director,Pelicula,Genero,Actor),Lista),
+	text_out(30,150,"Pelicula: "),
+	text_out(180,150,"Genero: "),	
+	text_out(300,150,"Actor: "),
+	mostrar_pelicula_genero_actor(Lista, 180).
 	
 
+
+% al oprimir el botón_director_pelicula_genero_actor se procede a mostrar el director, la pelicula,el genero y el actor.
+
+boton_director_pelicula_actor_genero(press):-
+	findall(Director-Pelicula-Genero-Actor, informacion_pelicula(Director,Pelicula,Genero,Actor),Lista),
+	text_out(100,100,"Toda la informacion relacionada al Director"),	
+	text_out(10,150,"Director: "),
+	text_out(160,150,"Pelicula: "),
+	text_out(310,150,"Genero: "),	
+	text_out(450,150,"Actor: "),
+	mostrar_director_pelicula_genero_actor(Lista, 180).
 	
+
 
 
 
